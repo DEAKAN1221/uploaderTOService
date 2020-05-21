@@ -46,7 +46,7 @@ public class UploaderApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         fileConvert();
-        log.info("Total count is Weapons " + countWeapon);
+        log.info("Total count is Weapon " + countWeapon);
         log.info("DOWNLOAD IS DONE");
 
 
