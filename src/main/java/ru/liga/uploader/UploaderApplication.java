@@ -30,8 +30,6 @@ public class UploaderApplication implements CommandLineRunner {
     @Autowired
     private  WeponRepository weponRepository;
 
-    @Autowired
-    private TemplateRepository templateRepository;
 
     @Autowired
     private OrganizationMappingRepository organizationMappingRepository;
@@ -85,7 +83,6 @@ public class UploaderApplication implements CommandLineRunner {
         Long organizationId = organizationMappingRepository.findByOldOrganizationId(oldOrganizationId).getOrganizationId();
         log.info("start upload to " + oldOrganizationId);
         List<WeaponEntity> weaponEntities = new ArrayList<>();
-        List<TemplateEntity> templateEntities = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         DataFormatter formatter = new DataFormatter();
 
@@ -93,98 +90,75 @@ public class UploaderApplication implements CommandLineRunner {
         try {
             Workbook myXlsBook = new XSSFWorkbook(file.getPath());
             Sheet myExcelSheet;
-            for (int i = 0; i < 2; i++) {
-                switch (i) {
-                    case (0):
-                        myExcelSheet = myXlsBook.getSheetAt(i);
-                        for (int j = 1; j < myExcelSheet.getLastRowNum() + 1; j++) {
-                            Row row;
-                            TemplateEntity templateEntity = new TemplateEntity();
-                            row = myExcelSheet.getRow(j);
-                            templateEntity.setShortName(row.getCell(1) != null
-                                    && !row.getCell(1).getStringCellValue().isEmpty()
-                                    ? row.getCell(1).getStringCellValue().toUpperCase() : null);
-                            templateEntity.setCount(row.getCell(3) != null
-                                    ? Long.valueOf(formatter.formatCellValue(row.getCell(3))) : 0);
-                            templateEntity.setOrganizationId(organizationId);
-                            templateEntities.add(templateEntity);
-                        }
-                        break;
-
-                    case (1):
-                        myExcelSheet = myXlsBook.getSheetAt(i);
+            myExcelSheet = myXlsBook.getSheetAt(0);
 
 
-                        for (int k = 1; k < myExcelSheet.getLastRowNum() + 1; k++) {
-                            Row row;
-                            WeaponEntity weaponEntity = new WeaponEntity();
-                            row = myExcelSheet.getRow(k);
-                            weaponEntity.setWeaponsName(row.getCell(0) != null
-                                    && !formatter.formatCellValue(row.getCell(0)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(0)).toUpperCase() : null);
-                            weaponEntity.setSeries(row.getCell(1) != null
-                                    && !formatter.formatCellValue(row.getCell(1)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(1)) : null);
-                            weaponEntity.setWeaponNumber(row.getCell(2) != null
-                                    && !formatter.formatCellValue(row.getCell(2)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(2)) : null);
-                            weaponEntity.setMakeYear(row.getCell(3) != null
-                                    && !formatter.formatCellValue(row.getCell(3)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(3)) : null);
-                            weaponEntity.setCategory(row.getCell(4) != null
-                                    && !formatter.formatCellValue(row.getCell(4)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(4)) : null);
-                            weaponEntity.setStoragePlace(row.getCell(5) != null
-                                    && !formatter.formatCellValue(row.getCell(5)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(5)) : null);
-                            weaponEntity.setOrganizationName(row.getCell(6) != null
-                                    && !formatter.formatCellValue(row.getCell(6)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(6)) : null);
-                            weaponEntity.setOwnerRank(row.getCell(7) != null
-                                    && !formatter.formatCellValue(row.getCell(7)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(7)) : null);
-                            weaponEntity.setOwnerName(row.getCell(8) != null
-                                    && !formatter.formatCellValue(row.getCell(8)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(8)) : null);
-                            weaponEntity.setSafe(row.getCell(9) != null
-                                    && !formatter.formatCellValue(row.getCell(9)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(9)) : null);
-                            weaponEntity.setCell(row.getCell(10) != null
-                                    && !formatter.formatCellValue(row.getCell(10)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(10)) : null);
-                            weaponEntity.setNote(row.getCell(11) != null
-                                    && !formatter.formatCellValue(row.getCell(11)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(11)) : null);
-                            weaponEntity.setReceiptCategory("OTHER");
-                            weaponEntity.setSenderOrganization(row.getCell(13) != null
-                                    && !formatter.formatCellValue(row.getCell(13)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(13)) : "Склад");
-                            weaponEntity.setDocumentKind(row.getCell(14) != null
-                                    && !formatter.formatCellValue(row.getCell(14)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(14)) : "Другое");
-                            weaponEntity.setDocumentNumber(row.getCell(15) != null
-                                    && !formatter.formatCellValue(row.getCell(15)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(15)) : "б/н");
-                            weaponEntity.setDocumentDate(row.getCell(16) != null
-                                    && !formatter.formatCellValue(row.getCell(16)).trim().isEmpty() ?
-                            sdf.format(row.getCell(16).getDateCellValue()) : "01.01.1900");
-                            weaponEntity.setKoActNumber(row.getCell(17) != null
-                                    && !row.getCell(17).getStringCellValue().isEmpty()
-                                    ? row.getCell(17).getStringCellValue() : null);
-                            weaponEntity.setOrganizationId(organizationId);
-                            weaponEntity.setSectionType("SERVICE");
-                            countWeapon +=1;
-                            weaponEntities.add(weaponEntity);
-                        }
-                        break;
-                }
+            for (int k = 1; k < myExcelSheet.getLastRowNum() + 1; k++) {
+                Row row;
+                WeaponEntity weaponEntity = new WeaponEntity();
+                row = myExcelSheet.getRow(k);
+                weaponEntity.setWeaponsName(row.getCell(0) != null
+                        && !formatter.formatCellValue(row.getCell(0)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(0)).toUpperCase() : null);
+                weaponEntity.setSeries(row.getCell(1) != null
+                        && !formatter.formatCellValue(row.getCell(1)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(1)) : null);
+                weaponEntity.setWeaponNumber(row.getCell(2) != null
+                        && !formatter.formatCellValue(row.getCell(2)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(2)) : null);
+                weaponEntity.setMakeYear(row.getCell(3) != null
+                        && !formatter.formatCellValue(row.getCell(3)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(3)) : null);
+                weaponEntity.setCategory(row.getCell(4) != null
+                        && !formatter.formatCellValue(row.getCell(4)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(4)) : null);
+                weaponEntity.setStoragePlace(row.getCell(5) != null
+                        && !formatter.formatCellValue(row.getCell(5)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(5)) : null);
+                weaponEntity.setOrganizationName(row.getCell(6) != null
+                        && !formatter.formatCellValue(row.getCell(6)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(6)) : null);
+                weaponEntity.setOwnerRank(row.getCell(7) != null
+                        && !formatter.formatCellValue(row.getCell(7)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(7)) : null);
+                weaponEntity.setOwnerName(row.getCell(8) != null
+                        && !formatter.formatCellValue(row.getCell(8)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(8)) : null);
+                weaponEntity.setSafe(row.getCell(9) != null
+                        && !formatter.formatCellValue(row.getCell(9)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(9)) : null);
+                weaponEntity.setCell(row.getCell(10) != null
+                        && !formatter.formatCellValue(row.getCell(10)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(10)) : null);
+                weaponEntity.setNote(row.getCell(11) != null
+                        && !formatter.formatCellValue(row.getCell(11)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(11)) : null);
+                weaponEntity.setReceiptCategory("OTHER");
+                weaponEntity.setSenderOrganization(row.getCell(13) != null
+                        && !formatter.formatCellValue(row.getCell(13)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(13)) : "Склад");
+                weaponEntity.setDocumentKind(row.getCell(14) != null
+                        && !formatter.formatCellValue(row.getCell(14)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(14)) : "Другое");
+                weaponEntity.setDocumentNumber(row.getCell(15) != null
+                        && !formatter.formatCellValue(row.getCell(15)).isEmpty()
+                        ? formatter.formatCellValue(row.getCell(15)) : "б/н");
+                weaponEntity.setDocumentDate(row.getCell(16) != null
+                        && !formatter.formatCellValue(row.getCell(16)).trim().isEmpty() ?
+                        sdf.format(row.getCell(16).getDateCellValue()) : "01.01.1900");
+                weaponEntity.setKoActNumber(row.getCell(17) != null
+                        && !row.getCell(17).getStringCellValue().isEmpty()
+                        ? row.getCell(17).getStringCellValue() : null);
+                weaponEntity.setOrganizationId(organizationId);
+                weaponEntity.setSectionType("CIVILIZATION");
+                countWeapon += 1;
+                weaponEntities.add(weaponEntity);
             }
+
         } catch (Exception ioe) {
             ioe.printStackTrace();
         }
-        log.info(String.valueOf(templateEntities.size()) + " Organization " + oldOrganizationId);
-        templateRepository.saveAll(templateEntities);
-        log.info("complete " + "template sheet to " + oldOrganizationId);
+
         log.info(String.valueOf(weaponEntities.size()) + " Organization " + oldOrganizationId);
         weponRepository.saveAll(weaponEntities);
         log.info("complete " + "weapons sheet to " + oldOrganizationId);
