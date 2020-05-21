@@ -10,10 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.liga.uploader.entity.TemplateEntity;
 import ru.liga.uploader.entity.WeaponEntity;
 import ru.liga.uploader.repository.OrganizationMappingRepository;
-import ru.liga.uploader.repository.TemplateRepository;
 import ru.liga.uploader.repository.WeponRepository;
 
 import java.io.File;
@@ -52,8 +50,8 @@ public class UploaderApplication implements CommandLineRunner {
 
 
     private void fileConvert() {
-//        File baseDir = new File(new File(".").getAbsolutePath());
-        File baseDir = new File("/home/rataullin/Documents/migdemo/");
+        File baseDir = new File(new File(".").getAbsolutePath());
+//        File baseDir = new File("/home/rataullin/Documents/migdemo/");
 
         File[] arrFiles = baseDir.listFiles((dir, name) ->
                 new File(dir.getPath() + "/" + name).isDirectory() || name.endsWith(".xlsx"));
