@@ -54,8 +54,8 @@ public class UploaderApplication implements CommandLineRunner {
 
 
     private void fileConvert() {
-//        File baseDir = new File(new File(".").getAbsolutePath());
-        File baseDir = new File("/home/rataullin/Documents/migdemo/");
+        File baseDir = new File(new File(".").getAbsolutePath());
+//        File baseDir = new File("/home/rataullin/Documents/migdemo/");
 
         File[] arrFiles = baseDir.listFiles((dir, name) ->
                 new File(dir.getPath() + "/" + name).isDirectory() || name.endsWith(".xlsx"));
