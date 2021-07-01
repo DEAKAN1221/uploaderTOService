@@ -2,9 +2,9 @@ spring:
   application:
     name: "uploader"
   datasource:
-    url: jdbc:postgresql://192.168.222.182/wrndbdemo
-    username: wrnuser
-    password: wrnuser
+    url: jdbc:postgresql://scuo-db01/wcsdb
+    username: wcsuser
+    password: ohwah7eubee7Eerahziphei8
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -21,7 +21,7 @@ spring:
           order_inserts: true
 
 
-    show_sql: false
+    show_sql: true
     format_sql: true
     use_sql_comments: true
 
