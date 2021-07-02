@@ -1,25 +1,27 @@
 package ru.liga.uploader;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.liga.uploader.entity.TemplateEntity;
-import ru.liga.uploader.entity.WeaponEntity;
-import ru.liga.uploader.repository.OrganizationMappingRepository;
-import ru.liga.uploader.repository.TemplateRepository;
-import ru.liga.uploader.repository.WeponRepository;
+import rgu.artifacts.x.ps_passport_light_commons._1_0.PsPassportType;
+import rgu.artifacts.x.ps_passport_package_light._1_0.GetPsPassportsPackageResponse;
+import ru.liga.uploader.entity.FRGUService;
+import ru.liga.uploader.repository.FRGUServiceDao;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.swing.text.html.parser.Entity;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -28,15 +30,11 @@ public class UploaderApplication implements CommandLineRunner {
 
 
     @Autowired
-    private  WeponRepository weponRepository;
+    private FRGUServiceDao frguServiceDao;
 
-    @Autowired
-    private TemplateRepository templateRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    private OrganizationMappingRepository organizationMappingRepository;
-
-    private int countWeapon = 0;
 
     public static void main(String[] args) {
         SpringApplication.run(UploaderApplication.class, args);
@@ -46,149 +44,52 @@ public class UploaderApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         fileConvert();
-        log.info("Total count is Weapons " + countWeapon);
         log.info("DOWNLOAD IS DONE");
 
 
     }
 
 
-    private void fileConvert() {
-//        File baseDir = new File(new File(".").getAbsolutePath());
-        File baseDir = new File("/home/rataullin/Documents/migdemo/");
+    public void fileConvert() throws IOException {
+        File baseDir = new File("/home/rataullin/content/");
+        List<File> lst = Arrays.asList(baseDir.listFiles());
+        for (File file : lst) {
+            String dataString = readFile(file.getAbsolutePath(), StandardCharsets.UTF_8);
+            GetPsPassportsPackageResponse response = MarshallUtil.unmarshalElement(dataString, GetPsPassportsPackageResponse.class);
+            save(file, response);
 
-        File[] arrFiles = baseDir.listFiles((dir, name) ->
-                new File(dir.getPath() + "/" + name).isDirectory() || name.endsWith(".xlsx"));
-
-        baseDir.getName();
-
-        try {
-            for (File item : arrFiles) {
-                if (item.isDirectory()) {
-                    File[] subFiles = item.listFiles((dir, name) -> name.endsWith(".xlsx"));
-
-                    for (File subItem : subFiles) {
-                        setData(subItem);
-                    }
-
-                } else {
-                    setData(item);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
+        System.out.println("That's all");
+        System.out.println();
     }
 
-    public void setData(File file) throws IOException {
-        Long oldOrganizationId = Long.parseLong(file.getName().replace(".xlsx", ""));
-        Long organizationId = organizationMappingRepository.findByOldOrganizationId(oldOrganizationId).getOrganizationId();
-        log.info("start upload to " + oldOrganizationId);
-        List<WeaponEntity> weaponEntities = new ArrayList<>();
-        List<TemplateEntity> templateEntities = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        DataFormatter formatter = new DataFormatter();
+    static String readFile(String path, Charset encoding)
+            throws IOException
+    {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
 
-
-        try {
-            Workbook myXlsBook = new XSSFWorkbook(file.getPath());
-            Sheet myExcelSheet;
-            for (int i = 0; i < 2; i++) {
-                switch (i) {
-                    case (0):
-                        myExcelSheet = myXlsBook.getSheetAt(i);
-                        for (int j = 1; j < myExcelSheet.getLastRowNum() + 1; j++) {
-                            Row row;
-                            TemplateEntity templateEntity = new TemplateEntity();
-                            row = myExcelSheet.getRow(j);
-                            templateEntity.setShortName(row.getCell(1) != null
-                                    && !row.getCell(1).getStringCellValue().isEmpty()
-                                    ? row.getCell(1).getStringCellValue().toUpperCase() : null);
-                            templateEntity.setCount(row.getCell(3) != null
-                                    ? Long.valueOf(formatter.formatCellValue(row.getCell(3))) : 0);
-                            templateEntity.setOrganizationId(organizationId);
-                            templateEntities.add(templateEntity);
-                        }
-                        break;
-
-                    case (1):
-                        myExcelSheet = myXlsBook.getSheetAt(i);
-
-
-                        for (int k = 1; k < myExcelSheet.getLastRowNum() + 1; k++) {
-                            Row row;
-                            WeaponEntity weaponEntity = new WeaponEntity();
-                            row = myExcelSheet.getRow(k);
-                            weaponEntity.setWeaponsName(row.getCell(0) != null
-                                    && !formatter.formatCellValue(row.getCell(0)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(0)).toUpperCase() : null);
-                            weaponEntity.setSeries(row.getCell(1) != null
-                                    && !formatter.formatCellValue(row.getCell(1)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(1)) : null);
-                            weaponEntity.setWeaponNumber(row.getCell(2) != null
-                                    && !formatter.formatCellValue(row.getCell(2)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(2)) : null);
-                            weaponEntity.setMakeYear(row.getCell(3) != null
-                                    && !formatter.formatCellValue(row.getCell(3)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(3)) : null);
-                            weaponEntity.setCategory(row.getCell(4) != null
-                                    && !formatter.formatCellValue(row.getCell(4)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(4)) : null);
-                            weaponEntity.setStoragePlace(row.getCell(5) != null
-                                    && !formatter.formatCellValue(row.getCell(5)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(5)) : null);
-                            weaponEntity.setOrganizationName(row.getCell(6) != null
-                                    && !formatter.formatCellValue(row.getCell(6)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(6)) : null);
-                            weaponEntity.setOwnerRank(row.getCell(7) != null
-                                    && !formatter.formatCellValue(row.getCell(7)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(7)) : null);
-                            weaponEntity.setOwnerName(row.getCell(8) != null
-                                    && !formatter.formatCellValue(row.getCell(8)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(8)) : null);
-                            weaponEntity.setSafe(row.getCell(9) != null
-                                    && !formatter.formatCellValue(row.getCell(9)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(9)) : null);
-                            weaponEntity.setCell(row.getCell(10) != null
-                                    && !formatter.formatCellValue(row.getCell(10)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(10)) : null);
-                            weaponEntity.setNote(row.getCell(11) != null
-                                    && !formatter.formatCellValue(row.getCell(11)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(11)) : null);
-                            weaponEntity.setReceiptCategory("OTHER");
-                            weaponEntity.setSenderOrganization(row.getCell(13) != null
-                                    && !formatter.formatCellValue(row.getCell(13)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(13)) : "Склад");
-                            weaponEntity.setDocumentKind(row.getCell(14) != null
-                                    && !formatter.formatCellValue(row.getCell(14)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(14)) : "Другое");
-                            weaponEntity.setDocumentNumber(row.getCell(15) != null
-                                    && !formatter.formatCellValue(row.getCell(15)).isEmpty()
-                                    ? formatter.formatCellValue(row.getCell(15)) : "б/н");
-                            weaponEntity.setDocumentDate(row.getCell(16) != null
-                                    && !formatter.formatCellValue(row.getCell(16)).trim().isEmpty() ?
-                            sdf.format(row.getCell(16).getDateCellValue()) : "01.01.1900");
-                            weaponEntity.setKoActNumber(row.getCell(17) != null
-                                    && !row.getCell(17).getStringCellValue().isEmpty()
-                                    ? row.getCell(17).getStringCellValue() : null);
-                            weaponEntity.setOrganizationId(organizationId);
-                            weaponEntity.setSectionType("SERVICE");
-                            countWeapon +=1;
-                            weaponEntities.add(weaponEntity);
-                        }
-                        break;
-                }
-            }
-        } catch (Exception ioe) {
-            ioe.printStackTrace();
+    @Transactional
+    public void save(File file, GetPsPassportsPackageResponse response) {
+        List<FRGUService> frguServiceList = new ArrayList<>();
+        for (PsPassportType res : response.getPsPassportsPackage().getPsPassport()) {
+            FRGUService frguService = new FRGUService();
+            frguService.setCurrentSsn(response.getCurrentSsn());
+            frguService.setPsPassportId(res.getId());
+            frguService.setSsn(res.getSsn());
+            frguService.setFullTitle(res.getFullTitle());
+            frguService.setOrganizationId(res.getResponsibleRGUStateStructure() != null ? res.getResponsibleRGUStateStructure().getFullName() : null);
+            frguService.setFunction(res.isIsFunction());
+            frguService.setCreationDate(DateTimeHelper.ofLocalDate(res.getCreateDate()));
+            frguService.setStartPublishedDate(DateTimeHelper.ofLocalDate(res.getStartPublishDate()));
+            frguService.setAdministrativeLevel(res.getAdministrativeLevel() != null ? res.getAdministrativeLevel().getValue() : null);
+            frguService.setFileName(file.getName());
+            frguServiceList.add(frguService);
         }
-        log.info(String.valueOf(templateEntities.size()) + " Organization " + oldOrganizationId);
-        templateRepository.saveAll(templateEntities);
-        log.info("complete " + "template sheet to " + oldOrganizationId);
-        log.info(String.valueOf(weaponEntities.size()) + " Organization " + oldOrganizationId);
-        weponRepository.saveAll(weaponEntities);
-        log.info("complete " + "weapons sheet to " + oldOrganizationId);
-
+        frguServiceDao.saveAll(frguServiceList);
     }
 
 }
+
+

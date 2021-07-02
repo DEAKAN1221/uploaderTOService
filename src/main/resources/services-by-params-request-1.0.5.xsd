@@ -1,0 +1,107 @@
+<?xml version= "1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="urn://x-artifacts-rgu/ps-passport-package-light/1.0.5"
+           xmlns:ppc="urn://x-artifacts-rgu/ps-passport-light-commons/1.0.5"
+           xmlns:ct="urn://x-artifacts-rgu/common-types/1.0.0"
+           xmlns:pcf="urn://x-artifacts-rgu/package-common-filters-light/1.0.3"
+           targetNamespace="urn://x-artifacts-rgu/ps-passport-package-light/1.0.5"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:import namespace="urn://x-artifacts-rgu/ps-passport-light-commons/1.0.5" schemaLocation="commons/ps-passport-light-commons-1.0.5.xsd"/>
+    <xs:import namespace="urn://x-artifacts-rgu/package-common-filters-light/1.0.3"
+               schemaLocation="commons/package-filters-commons-1.0.3.xsd"/>
+    <xs:import namespace="urn://x-artifacts-rgu/common-types/1.0.0" schemaLocation="commons/common-types-1.0.0.xsd"/>
+
+    <xs:element name="getPsPassportsPackageRequest" type="tns:GetPsPassportsPackageRequest"/>
+    <xs:element name="getPsPassportsPackageResponse" type="tns:GetPsPassportsPackageResponse"/>
+
+    <xs:complexType name="GetPsPassportsPackageRequest">
+        <xs:annotation>
+            <xs:documentation>Запрос на пакетную выгрузку информации об услугах</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="responsibleRGUStateStructureId" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор ответственного (в том числе за ведение сведений в РГУ) органа
+                        власти
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="territoryScopeFilter" type="pcf:TerritoryScopeFilterType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Фильтр по территориальному масштабу деятельности</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ssnFilter" type="pcf:SSNFilterType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Фильтр по SSN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="packagePart" type="pcf:PackagePartType">
+                <xs:annotation>
+                    <xs:documentation>Часть пакета, которую нужно вернуть.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="statuses" type="tns:StatusListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Список статусов услуги. Если элемент не указан, то поиск выполняется по всем статусам
+                        системы
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="psPassportFilter" type="ppc:PsPassportFilterType">
+                <xs:annotation>
+                    <xs:documentation>Фильтр, с помощью которого можно указать какую информацию об услуге нужно
+                        вернуть
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="StatusListType">
+        <xs:annotation>
+            <xs:documentation>Список статусов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="status" type="ct:PsPassportStatusType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Статус</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GetPsPassportsPackageResponse">
+        <xs:annotation>
+            <xs:documentation>Ответ на запрос пакетной выгрузки информации об услугах</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="currentSsn" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Текущий SSN в системе</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="psPassportsPackage" type="tns:PsPassportsPackageType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Пакет услуг</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PsPassportsPackageType">
+        <xs:annotation>
+            <xs:documentation>Пакет услуг</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="psPassport" type="ppc:PsPassportType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Информация об услуге</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

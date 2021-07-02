@@ -1,0 +1,603 @@
+<?xml version= "1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="urn://x-artifacts-rgu/ps-passport-light-commons/1.0.5"
+           xmlns:ct="urn://x-artifacts-rgu/common-types/1.0.0"
+           targetNamespace="urn://x-artifacts-rgu/ps-passport-light-commons/1.0.5"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:import namespace="urn://x-artifacts-rgu/common-types/1.0.0" schemaLocation="common-types-1.0.0.xsd"/>
+
+    <xs:complexType name="PsPassportFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр, с помощью которого можно указать какую информацию об услуге нужно
+                вернуть
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="shortTitle" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Краткое наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="responsibleRGUStateStructure" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Ответственный орган власти, в том числе и за ведение услуги в реестре
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="responsibleOrganization" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Ответственная организация</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="administrativeLevel" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Административный уровень</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="category" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Категория услуги</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="сlassificator" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Классификатор услуг/функций</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="url" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Адрес в сети интернет</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="status" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Статус услуги</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="createDate" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Дата создания</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="startPublishDate" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Дата начала оказания</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="endPublishDate" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Дата окончания оказания</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="typicalServiceTemplate" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Сведения о шаблоне типовой услуги, на основании которой создана данная
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="participants" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Участвующие организации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="services" type="tns:ServiceFilterType">
+                <xs:annotation>
+                    <xs:documentation>Процедуры взаимодействия с заявителем/Проведения проверок</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр по процедурам взаимодействия с заявителем</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="groundForAction" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Основание</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="result" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Результат оказания услуги</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="serviceTargets" type="tns:ServiceTargetFilterType">
+                <xs:annotation>
+                    <xs:documentation>Цели обращения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceTargetFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр целей обращения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="executionTime" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Срок предоставления</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="url" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Ссылка на описание цели обращения в сети Интернет</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="payments" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Оплата</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lifeEvents" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Жизненные ситуации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="recipientCategories" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Категории получателей</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inDocuments" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Входящие документы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inDocumentGroups" type="tns:InDocumentGroupFilterType">
+                <xs:annotation>
+                    <xs:documentation>Группы входящих документов</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="targetScenarios" type="tns:TargetScenarioFilterType">
+                <xs:annotation>
+                    <xs:documentation>Сценарии завершения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InDocumentGroupFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр группы входящих документов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="title" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Заголовок группы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inDocuments" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Список документов группы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TargetScenarioFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр сценариев завершения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="outDocuments" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Список исходящих документов</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PsPassportType">
+        <xs:annotation>
+            <xs:documentation>Информация об услуге</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ssn" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Текущий SSN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="fullTitle" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Полное наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="isFunction" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Является функцией</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="responsibleRGUStateStructure" type="tns:RStateStructureShortType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Ответственный орган власти, в том числе за ведение услуги в реестре
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="responsibleOrganization" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Ответственная организация</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="shortTitle" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Краткое наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="url" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Адрес в сети Интернет</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="status" type="ct:PsPassportStatusType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Статус услуги</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="createDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дата создания</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="startPublishDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дата начала оказания</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="endPublishDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Дата окончания оказания</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="administrativeLevel" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Административный уровень</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="classificator" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Классификатор услуг/функций</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="category" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Категория услуги</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="typicalServiceTemplate" type="tns:TypicalServiceTemplateType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Информация о шаблоне типовой услуги, на основании которой создана данная
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="participants" type="tns:ParticipantListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Участвующие организации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="services" type="tns:ServiceListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Процедуры взаимодействия с заявителями/Проведения проверок</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TypicalServiceTemplateType">
+        <xs:annotation>
+            <xs:documentation>Информация о шаблоне типовой услуги, на основании которой создана данная
+            </xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="parentId" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Типовая услуга</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parentIdDictionary" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Услуга типового справочника</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceListType">
+        <xs:annotation>
+            <xs:documentation>Процедуры взаимодействия с заявителями/Проведения проверок</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="service" type="tns:ServiceType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Процедура взаимодействия с заявителем</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceType">
+        <xs:annotation>
+            <xs:documentation>Процедура взаимодейтсвия с заявителем/Проведение проверки</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="title" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="groundForAction" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Основание</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="result" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Результат оказания (Исполнения)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="serviceTargets" type="tns:ServiceTargetListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Цели обращения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceTargetListType">
+        <xs:annotation>
+            <xs:documentation>Цели обращения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="serviceTarget" type="tns:ServiceTargetType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Цель обращения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ServiceTargetType">
+        <xs:annotation>
+            <xs:documentation>Цель обращения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="title" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inDocuments" type="ct:ReferenceItemList" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Входящие документы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inDocumentGroups" type="tns:InDocumentGroupListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Группы входящих документов</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="targetScenarios" type="tns:TargetScenarioListType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Сценарии завершения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="url" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Ссылка на описание цели обращения в сети Интернет</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="payments" type="ct:ReferenceItemList" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Оплаты</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lifeEvents" type="ct:ReferenceItemList" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Жизненные ситуации</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="recipientCategories" type="ct:ReferenceItemList" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Категории получателей</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="executionTime" type="tns:ExecutionTimeType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Срок предоставления</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InDocumentGroupListType">
+        <xs:annotation>
+            <xs:documentation>Группы входящих документов</xs:documentation>
+        </xs:annotation>
+       <xs:sequence>
+           <xs:element name="inDocumentGroup" type="tns:InDocumentGroupType" maxOccurs="unbounded">
+               <xs:annotation>
+                   <xs:documentation>Группа входящих документов</xs:documentation>
+               </xs:annotation>
+           </xs:element>
+       </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="InDocumentGroupType">
+        <xs:annotation>
+            <xs:documentation>Группа входящих документов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="title" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Название группы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="inDocuments" type="ct:ReferenceItemList" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Список документов группы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ExecutionTimeType">
+        <xs:annotation>
+            <xs:documentation>Срок</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="period" type="xs:int" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Срок</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="measure" type="ct:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Единица измерения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TargetScenarioListType">
+        <xs:annotation>
+            <xs:documentation>Сценарии завершения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="targetScenario" type="tns:TargetScenarioType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Сценарий завершения</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TargetScenarioType">
+        <xs:annotation>
+            <xs:documentation>Сценарий завершения</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="title" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="outDocuments" type="ct:ReferenceItemList" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Исходящие документы</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ParticipantListType">
+        <xs:annotation>
+            <xs:documentation>Участвующие организации</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="participant" type="tns:ParticipantType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Участвующая организация</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ParticipantType">
+        <xs:annotation>
+            <xs:documentation>Участвующая организация</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="rStateStructure" type="tns:RStateStructureShortType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Участвующая организация</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="participantType" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип участия</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RStateStructureShortType">
+        <xs:annotation>
+            <xs:documentation>Организация</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="fullName" type="ct:text"  minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Полное наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="shortName" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Краткое наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parent" type="tns:RStateStructureParent" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вышестоящий орган</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RStateStructureParent">
+        <xs:annotation>
+            <xs:documentation>Вышестоящий орган</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="fullName" type="ct:text" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Полное наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="ct:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

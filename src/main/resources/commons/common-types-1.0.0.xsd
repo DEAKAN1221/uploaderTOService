@@ -1,0 +1,683 @@
+<?xml version= "1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="urn://x-artifacts-rgu/common-types/1.0.0"
+           xmlns:sc="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+           targetNamespace="urn://x-artifacts-rgu/common-types/1.0.0"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+               schemaLocation="smev-supplementary-commons-1.0.1.xsd"/>
+
+    <!--==========================================  Структурированные типы  ==========================================-->
+
+    <xs:complexType name="AddressType">
+        <xs:annotation>
+            <xs:documentation>Адрес</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="federalSubject" type="tns:string-256">
+                <xs:annotation>
+                    <xs:documentation>Субъект РФ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="okrug" type="sc:string-500" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Автономный округ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="district" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Район</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="city" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Город</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="cityDistrict" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Городской район</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="town" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Населенный пункт</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="townType" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип населенного пункта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="townDistrict" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Район населенного пункта</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="street" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Улица</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="postalCode" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Почтовый индекс</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="okato" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>ОКАТО</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="oktmo" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>ОКТМО</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="houseNumber" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Номер дома</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="building" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Корпус/Владение/Строение</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="officeNumber" type="tns:string-256" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Номер офиса</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReferenceItem">
+        <xs:annotation>
+            <xs:documentation>Универсальный ссылочный объект, который может использоваться как ссылка на элемент
+                справочника, либо как ссылка на некоторый бизнес-объект.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ref" type="tns:UniversalReferenceType">
+                <xs:annotation>
+                    <xs:documentation>Универсальный ссылка.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="value" type="tns:UniversalValueType">
+                <xs:annotation>
+                    <xs:documentation>Универсальное значение.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReferenceItemList">
+        <xs:annotation>
+            <xs:documentation>Список из универсальных ссылочных объектов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="item" type="tns:ReferenceItem" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="FileType">
+        <xs:annotation>
+            <xs:documentation>Файл</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="name" type="sc:string-200">
+                <xs:annotation>
+                    <xs:documentation>Имя файла</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="sc:string-200" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип файла</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="size" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Размер файла</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="content" type="sc:AttachmentRefType">
+                <xs:annotation>
+                    <xs:documentation>Ссылка на содержимое файла</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="FileListType">
+        <xs:annotation>
+            <xs:documentation>Список файлов</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="file" type="tns:FileType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RStateStructureShortType">
+        <xs:annotation>
+            <xs:documentation>Организация</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="fullName" type="tns:string-4096">
+                <xs:annotation>
+                    <xs:documentation>Полное наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="tns:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="shortName" type="tns:string-4096" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Краткое наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="parent" type="tns:RStateStructureParent" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вышестоящий орган</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RStateStructureParent">
+        <xs:annotation>
+            <xs:documentation>Вышестоящий орган</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="id" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="fullName" type="tns:string-4096">
+                <xs:annotation>
+                    <xs:documentation>Полное наименование</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="type" type="tns:ReferenceItem" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Тип ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <!--==========================================  Простые типы  ==========================================-->
+
+    <xs:simpleType name="OKTMOType">
+        <xs:annotation>
+            <xs:documentation>Код ОКТМО</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="11"/>
+            <xs:pattern value="(([0-9]){11})|(([0-9]){8})"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="BIKType">
+        <xs:annotation>
+            <xs:documentation>БИК банка</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="9"/>
+            <xs:pattern value="\d{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="AccountType">
+        <xs:annotation>
+            <xs:documentation>Номер банковского счета</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:length value="20"/>
+            <xs:pattern value="\d{20}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LatitudeCoordinateType">
+        <xs:annotation>
+            <xs:documentation>Географическая координата - широта</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="8"/>
+            <xs:fractionDigits value="6"/>
+            <xs:minExclusive value="-90"/>
+            <xs:maxExclusive value="90"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LongitudeCoordinateType">
+        <xs:annotation>
+            <xs:documentation>Географическая координата - долгота</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="9"/>
+            <xs:fractionDigits value="6"/>
+            <xs:minExclusive value="-180"/>
+            <xs:maxExclusive value="180"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-256">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="string-4096">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4096"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="text">
+        <xs:restriction base="xs:string">
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UniversalReferenceType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="256"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UniversalValueType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4096"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--==========================================  Справочники  ==========================================-->
+
+    <xs:simpleType name="RStateStructureStatusType">
+        <xs:annotation>
+            <xs:documentation>Статус ОГВ.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NEW">
+                <xs:annotation>
+                    <xs:documentation>Новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_REVIEW">
+                <xs:annotation>
+                    <xs:documentation>На внутреннем согласовании</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Не согласован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_REVISED">
+                <xs:annotation>
+                    <xs:documentation>На согласовании</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISH_READY">
+                <xs:annotation>
+                    <xs:documentation>Прошел согласование</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_EXPERTIZE">
+                <xs:annotation>
+                    <xs:documentation>На рассмотрении новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_PUBLISH_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Отказ в публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED_LOCAL_NEW">
+                <xs:annotation>
+                    <xs:documentation>Опубликован локально новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED_LOCAL_EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован локально</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED_UPLINK_NEW">
+                <xs:annotation>
+                    <xs:documentation>Опубликован в вышестоящем реестре новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED_UPLINK_EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован в вышестоящем реестре</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED_REMARKS_NEW">
+                <xs:annotation>
+                    <xs:documentation>Опубликован с замечаниями новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED_REMARKS_EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован с замечаниями</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="CUT">
+                <xs:annotation>
+                    <xs:documentation>Опубликован для привязок</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, вносятся изменения</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_REVIEW">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения на внутреннем согласовании</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения отклонены</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_REVISED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, согласование изменений</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_EXPERTIZE">
+                <xs:annotation>
+                    <xs:documentation>На повторной публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_ACCEPTED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения согласованы</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_PUBLISH_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Отказ в публикации изменений</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETE_PROPOSED">
+                <xs:annotation>
+                    <xs:documentation>На удалении</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETE_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Отказ от удаления</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETED_NEW">
+                <xs:annotation>
+                    <xs:documentation>Удален новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETED_PUBLISHED">
+                <xs:annotation>
+                    <xs:documentation>Удален</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISH_RENOUNCED">
+                <xs:annotation>
+                    <xs:documentation>Снят с публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNPUBLISHED">
+                <xs:annotation>
+                    <xs:documentation>Неопубликован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="INVALID">
+                <xs:annotation>
+                    <xs:documentation>Не верен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_NEW">
+                <xs:annotation>
+                    <xs:documentation>На согласовании в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_NEW_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Не согласован в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения на согласовании в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_EDITED_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения отклонены в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDIT">
+                <xs:annotation>
+                    <xs:documentation>Редактируемый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_CONFIRM">
+                <xs:annotation>
+                    <xs:documentation>На согласовании</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_PUBLISH">
+                <xs:annotation>
+                    <xs:documentation>На публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Снят с публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="RESTORED">
+                <xs:annotation>
+                    <xs:documentation>Восстановлен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETED">
+                <xs:annotation>
+                    <xs:documentation>Удален</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PROCESSED_WITHOUT_CORRECTION">
+                <xs:annotation>
+                    <xs:documentation>Обработано без исправления ошибки</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PROCESSED_WITH_CORRECTION">
+                <xs:annotation>
+                    <xs:documentation>Обработано с исправлением ошибки</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="RESPONSE_SENDED">
+                <xs:annotation>
+                    <xs:documentation>Ответ отправлен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_APPROVAL">
+                <xs:annotation>
+                    <xs:documentation>На внутреннем утверждении</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_EDIT">
+                <xs:annotation>
+                    <xs:documentation>На доработке</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="APPROVED">
+                <xs:annotation>
+                    <xs:documentation>Утвержден</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_EXPERTIZE">
+                <xs:annotation>
+                    <xs:documentation>Размещен в Интернете, на экспертизе</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXPERTIZE_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Не прошел экспертизу</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EXPERTIZE_OK">
+                <xs:annotation>
+                    <xs:documentation>Прошел экспертизу</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_REGISTRATION">
+                <xs:annotation>
+                    <xs:documentation>На регистрации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="REGISTRATION_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Не прошел регистрацию</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NOT_REGISTERED_EDITED">
+                <xs:annotation>
+                    <xs:documentation>Не зарегистрирован, на доработке</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="REGISTERED">
+                <xs:annotation>
+                    <xs:documentation>Зарегистрирован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PsPassportStatusType">
+        <xs:annotation>
+            <xs:documentation>Статус услуги/функции</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NEW">
+                <xs:annotation>
+                    <xs:documentation>Новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_REVIEW">
+                <xs:annotation>
+                    <xs:documentation>На внутреннем согласовании</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Не согласован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="RESTORED">
+                <xs:annotation>
+                    <xs:documentation>Восстановлен</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_NEW">
+                <xs:annotation>
+                    <xs:documentation>На согласовании в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_NEW_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Не согласован в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ON_PUBLISH">
+                <xs:annotation>
+                    <xs:documentation>На публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="NEW_PUBLISH_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Отказ в публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISHED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, вносятся изменения</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_REVIEW">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения на внутреннем согласовании</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения отклонены</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_EDITED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения на согласовании в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="STATE_EXPERTIZE_EDITED_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Опубликован, изменения отклонены в вышестоящем ведомстве</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_EXPERTIZE">
+                <xs:annotation>
+                    <xs:documentation>На повторной публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EDITED_PUBLISH_REJECTED">
+                <xs:annotation>
+                    <xs:documentation>Отказ в публикации изменений</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="PUBLISH_RENOUNCED">
+                <xs:annotation>
+                    <xs:documentation>Снят с публикации</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETE_PROPOSED">
+                <xs:annotation>
+                    <xs:documentation>На удалении</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETED_NEW">
+                <xs:annotation>
+                    <xs:documentation>Удален новый</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="DELETED_PUBLISHED">
+                <xs:annotation>
+                    <xs:documentation>Удален</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

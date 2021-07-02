@@ -1,0 +1,84 @@
+<?xml version= "1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="urn://x-artifacts-rgu/package-common-filters-light/1.0.3"
+           xmlns:ct="urn://x-artifacts-rgu/common-types/1.0.0"
+           xmlns:sc="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+           targetNamespace="urn://x-artifacts-rgu/package-common-filters-light/1.0.3"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+    <xs:import namespace="urn://x-artifacts-rgu/common-types/1.0.0" schemaLocation="common-types-1.0.0.xsd"/>
+    <xs:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+               schemaLocation="smev-supplementary-commons-1.0.1.xsd"/>
+    <xs:complexType name="TerritoryScopeFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр по территориальному масштабу деятельности</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="administrativeLevel" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Административный уровень</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="territory" type="tns:TerritoryShortType">
+                <xs:annotation>
+                    <xs:documentation>Территория действия ОГВ</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TerritoryShortType">
+        <xs:annotation>
+            <xs:documentation>Территорий действия ОГВ</xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element name="okato" type="sc:OKATOType">
+                <xs:annotation>
+                    <xs:documentation>ОКАТО</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="oktmo" type="ct:OKTMOType">
+                <xs:annotation>
+                    <xs:documentation>ОКТМО</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="SSNFilterType">
+        <xs:annotation>
+            <xs:documentation>Фильтр по SSN</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="from" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Значение ssn, начиная с которого выполнять выборку объектов. Если не задано, то
+                        выборка начинается с ssn = 0
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="to" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Значение ssn, начиная до которого выполнять выборку объектов. Если не задано, то
+                        выборка заканчивается максимальным ssn системы
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PackagePartType">
+        <xs:annotation>
+            <xs:documentation>Описание части пакета</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="offset" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Стартовый номер элемента массива</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="limit" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Максимальное количество элементов в пакете</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
